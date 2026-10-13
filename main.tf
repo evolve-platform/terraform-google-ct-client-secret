@@ -13,8 +13,13 @@ resource "google_secret_manager_secret" "this" {
 }
 
 resource "google_secret_manager_secret_version" "this" {
-  secret      = google_secret_manager_secret.this.id
-  secret_data = commercetools_api_client.this.secret
+  secret          = google_secret_manager_secret.this.id
+  secret_data     = commercetools_api_client.this.secret
+  deletion_policy = "ABANDON"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "google_secret_manager_secret_iam_member" "this" {
