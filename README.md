@@ -1,17 +1,28 @@
 # GCP Commercetools client secret Terraform Module
 
 Terraform module to manage a Commercetools client in Google Cloud.
+
+`secret_version_name` exposes the concrete Secret Manager version resource for
+configuration snapshots. Replaced secret versions are retained with `ABANDON`;
+callers can keep older parameter versions pointing at them.
+
+Apply this module update with unchanged credentials before rotating them so the
+existing state's version receives the retention policy. Retention does not keep
+the parent secret, IAM grants or the commercetools API client alive: removing or
+revoking those can still invalidate an older snapshot. The credential value is
+stored in Secret Manager and sensitive Terraform state, not in this output.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 5.15.0 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_commercetools"></a> [commercetools](#provider\_commercetools) | n/a |
 | <a name="provider_google"></a> [google](#provider\_google) | >= 5.15.0 |
 
@@ -22,7 +33,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [commercetools_api_client.this](https://registry.terraform.io/providers/labd/commercetools/latest/docs/resources/api_client) | resource |
 | [google_secret_manager_secret.this](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret) | resource |
 | [google_secret_manager_secret_iam_member.this](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/secret_manager_secret_iam_member) | resource |
@@ -31,7 +42,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels to apply to the service | `map(string)` | `{}` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the secret | `string` | n/a | yes |
 | <a name="input_scope"></a> [scope](#input\_scope) | The commercetools scope | `list(string)` | n/a | yes |
@@ -40,8 +51,9 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_client_id"></a> [client\_id](#output\_client\_id) | n/a |
 | <a name="output_scope"></a> [scope](#output\_scope) | n/a |
 | <a name="output_secret_name"></a> [secret\_name](#output\_secret\_name) | n/a |
+| <a name="output_secret_version_name"></a> [secret\_version\_name](#output\_secret\_version\_name) | Secret Manager version resource name, without the credential value. |
 <!-- END_TF_DOCS -->
