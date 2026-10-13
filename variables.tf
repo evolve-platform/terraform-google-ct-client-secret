@@ -21,3 +21,17 @@ variable "labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "secret_replication_locations" {
+  description = "Secret payload replica regions. Null keeps automatic replication; changing this replaces existing secrets."
+  type        = set(string)
+  default     = null
+
+  validation {
+    condition = var.secret_replication_locations == null ? true : (
+      length(var.secret_replication_locations) > 0 &&
+      alltrue([for location in var.secret_replication_locations : can(regex("^[a-z]+-[a-z]+[0-9]+$", location))])
+    )
+    error_message = "Secret replication locations must be null or a non-empty set of Google Cloud regions."
+  }
+}
