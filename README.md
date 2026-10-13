@@ -21,12 +21,6 @@ changing its replica locations, requires secret replacement. Review the plan and
 coordinate the migration with consumers before applying it. Resource addresses,
 outputs and additive service-account IAM grants are unchanged.
 
-## Testing
-
-Run `terraform init -backend=false`, `terraform validate` and `terraform test`
-with Terraform 1.7 or newer. The tests use mock providers and do not create cloud
-resources or require credentials.
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
