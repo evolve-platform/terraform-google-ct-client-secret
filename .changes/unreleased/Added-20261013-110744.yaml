@@ -1,3 +1,0 @@
-kind: Added
-body: Optional secret_replication_locations input for user-managed Secret Manager replication, preserving automatic replication by default.
-time: 2026-10-13T11:07:44.818089+02:00
