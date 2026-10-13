@@ -8,7 +8,22 @@ resource "google_secret_manager_secret" "this" {
   labels    = var.labels
 
   replication {
-    auto {}
+    dynamic "auto" {
+      for_each = var.secret_replication_locations == null ? [1] : []
+      content {}
+    }
+
+    dynamic "user_managed" {
+      for_each = var.secret_replication_locations == null ? [] : [var.secret_replication_locations]
+      content {
+        dynamic "replicas" {
+          for_each = user_managed.value
+          content {
+            location = replicas.value
+          }
+        }
+      }
+    }
   }
 }
 
