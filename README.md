@@ -2,6 +2,15 @@
 
 Terraform module to manage a Commercetools client in Google Cloud.
 
+`secret_version_name` exposes the concrete Secret Manager version resource for
+configuration snapshots. Replaced secret versions are retained with `ABANDON`;
+callers can keep older parameter versions pointing at them.
+
+Apply this module update with unchanged credentials before rotating them so the
+existing state's version receives the retention policy. Retention does not keep
+the parent secret, IAM grants or the commercetools API client alive: removing or
+revoking those can still invalidate an older snapshot. The credential value is
+stored in Secret Manager and sensitive Terraform state, not in this output.
 ## Secret replication
 
 By default, the secret uses automatic replication. Set the optional
@@ -65,4 +74,5 @@ No modules.
 | <a name="output_client_id"></a> [client\_id](#output\_client\_id) | n/a |
 | <a name="output_scope"></a> [scope](#output\_scope) | n/a |
 | <a name="output_secret_name"></a> [secret\_name](#output\_secret\_name) | n/a |
+| <a name="output_secret_version_name"></a> [secret\_version\_name](#output\_secret\_version\_name) | Secret Manager version resource name, without the credential value. |
 <!-- END_TF_DOCS -->

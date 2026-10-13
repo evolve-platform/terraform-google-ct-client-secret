@@ -13,3 +13,8 @@ output "scope" {
 output "client_id" {
   value = commercetools_api_client.this.id
 }
+
+output "secret_version_name" {
+  description = "Secret Manager version resource name, without the credential value."
+  value       = google_secret_manager_secret_version.this.name
+}
