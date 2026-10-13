@@ -21,3 +21,9 @@ variable "labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "secret_replication_locations" {
+  description = "Secret payload replica regions. Null keeps automatic replication; changing this replaces existing secrets."
+  type        = set(string)
+  default     = null
+}
